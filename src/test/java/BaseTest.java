@@ -18,14 +18,19 @@ import java.util.List;
 @TestInstance(Lifecycle.PER_CLASS)
 public class BaseTest {
     WebDriver driver;
-    String nodeURL;
+    String gridURL;
+    Platform platform;
+    String browser;
+    int timeout;
+
+    // CREDENTIALS
+    String username;
+    String password;
 
     // POM PAGES
     LoginPage loginPage;
     DashboardPage dashboardPage;
-    // CREDENTIALS
-    String username;
-    String password;
+
     // TEST DATA
     String baseUrl;
     List<String> projects;
@@ -35,8 +40,10 @@ public class BaseTest {
     void setupTestEnvironment() {
         this.username = System.getenv("JIRA_USERNAME");
         this.password = System.getenv("JIRA_PASSWORD");
-        this.nodeURL = "https://selenium:" + password + "@seleniumhub.codecool.codecanvas.hu/wd/hub";
         this.baseUrl = "https://jira.codecool.codecanvas.hu/";
+        this.gridURL = "https://selenium:" + password + "@seleniumhub.codecool.codecanvas.hu/wd/hub";
+        this.platform = Platform.LINUX;
+        this.browser = "firefox";
 
         projects = Arrays.asList("TOUCAN", "JETI", "COALA");
         issueTypes = Arrays.asList("Story", "Task", "Bug");
@@ -49,9 +56,10 @@ public class BaseTest {
 //        this.driver = new ChromeDriver();
 
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-        capabilities.setBrowserName("firefox");
-        capabilities.setPlatform(Platform.LINUX);
-        driver = new RemoteWebDriver(new URL(nodeURL), capabilities);
+        capabilities.setBrowserName(browser);
+        capabilities.setPlatform(platform);
+        capabilities.setCapability("max_duration", timeout);
+        driver = new RemoteWebDriver(new URL(gridURL), capabilities);
         driver.manage().window().maximize();
 
         loginPage = new LoginPage(driver);
