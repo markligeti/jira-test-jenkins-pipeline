@@ -17,6 +17,7 @@ import java.util.List;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class BaseTest {
+    DesiredCapabilities capabilities;
     WebDriver driver;
     String gridURL;
     Platform platform;
@@ -40,25 +41,27 @@ public class BaseTest {
     void setupTestEnvironment() {
         this.username = System.getenv("JIRA_USERNAME");
         this.password = System.getenv("JIRA_PASSWORD");
-        this.baseUrl = "https://jira.codecool.codecanvas.hu/";
-        this.gridURL = "https://selenium:" + password + "@seleniumhub.codecool.codecanvas.hu/wd/hub";
-        this.platform = Platform.LINUX;
-        this.browser = "firefox";
+        this.baseUrl = System.getenv("JIRA_BASE_URL");
+        this.gridURL = System.getenv("JIRA_BASE_URL");
+        this.browser = System.getenv("BROWSER");
+        this.platform = Platform.fromString(
+                System.getenv("PLATFORM")
+        );
+        this.setCapabilities();
 
         projects = Arrays.asList("TOUCAN", "JETI", "COALA");
         issueTypes = Arrays.asList("Story", "Task", "Bug");
     }
 
-    @BeforeEach
-    void setDriver() throws MalformedURLException {
-//        // TODO: Drivers util class, getChromeDriver method + other browsers
-//        System.setProperty("webdriver.chrome.driver", Util.getDriverPath("chromedriver"));
-//        this.driver = new ChromeDriver();
-
-        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+    private void setCapabilities() {
+        capabilities = new DesiredCapabilities();
+        capabilities.setCapability("max_duration", timeout);
         capabilities.setBrowserName(browser);
         capabilities.setPlatform(platform);
-        capabilities.setCapability("max_duration", timeout);
+    }
+
+    @BeforeEach
+    void setDriver() throws MalformedURLException {
         driver = new RemoteWebDriver(new URL(gridURL), capabilities);
         driver.manage().window().maximize();
 
