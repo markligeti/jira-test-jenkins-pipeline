@@ -42,7 +42,7 @@ public class BaseTest {
         this.username = System.getenv("JIRA_USERNAME");
         this.password = System.getenv("JIRA_PASSWORD");
         this.baseUrl = System.getenv("JIRA_BASE_URL");
-        this.gridURL = System.getenv("JIRA_BASE_URL");
+        this.gridURL = System.getenv("JIRA_GRID_URL");
         this.browser = System.getenv("BROWSER");
         this.platform = Platform.fromString(
                 System.getenv("PLATFORM")
