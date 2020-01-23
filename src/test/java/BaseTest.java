@@ -16,6 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @TestInstance(Lifecycle.PER_CLASS)
+
+//Comment for test purposes
+
 public class BaseTest {
     DesiredCapabilities capabilities;
     WebDriver driver;
