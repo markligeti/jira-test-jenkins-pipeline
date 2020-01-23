@@ -55,9 +55,10 @@ public class BaseTest {
 
     private void setCapabilities() {
         capabilities = new DesiredCapabilities();
-        capabilities.setCapability("max_duration", timeout);
+//        capabilities.setCapability("max_duration", timeout);
         capabilities.setBrowserName(browser);
         capabilities.setPlatform(platform);
+        capabilities.setVersion("");
     }
 
     @BeforeEach
