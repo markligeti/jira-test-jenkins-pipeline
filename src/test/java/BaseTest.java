@@ -17,7 +17,7 @@ import java.util.List;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class BaseTest {
-    // test 007
+    // test 008
     DesiredCapabilities capabilities;
     WebDriver driver;
     String gridURL;
